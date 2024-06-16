@@ -25,7 +25,7 @@ waypoints = [
     (200, 300)
 ]
 
-enemy = Enemy((200, 300), enemy_image)
+enemy = Enemy(waypoints, enemy_image)
 
 enemy_group.add(enemy)
 
@@ -39,7 +39,11 @@ while run:
     
     # draw enemy path
     pg.draw.lines(screen, "grey0", False, waypoints)
-    # Update groups enemy_group.update() Draw enemy groups
+
+    # Update groups 
+    enemy_group.update() 
+
+    # Draw enemy groups
     enemy_group.draw(screen)
 
     # Event handler
