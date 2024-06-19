@@ -36,10 +36,8 @@ world.process_data()
 # Crete Groups
 enemy_group = pg.sprite.Group()
 
-waypoints = [(100, 100), (400, 200), (400, 100), (200, 300)]
 
-enemy = Enemy(waypoints, enemy_image)
-
+enemy = Enemy(world.waypoints, enemy_image)
 enemy_group.add(enemy)
 
 # Game loop
@@ -52,9 +50,6 @@ while run:
 
     # Draw level
     world.draw(screen)
-
-    # draw enemy path
-    pg.draw.lines(screen, "grey0", False, waypoints)
 
     # Update groups
     enemy_group.update()
