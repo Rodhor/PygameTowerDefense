@@ -17,6 +17,11 @@ clock = pg.time.Clock()
 screen = pg.display.set_mode((c.SCREEN_WIDTH + c.SIDE_PANEL, c.SCREEN_HEIGHT))
 pg.display.set_caption("Tower Defence")
 
+
+### Game variables
+placing_turret = False
+
+
 ### Load images ###
 # Map
 map_image = pg.image.load("levels/level.png").convert_alpha()
@@ -73,8 +78,8 @@ enemy = Enemy(world.waypoints, enemy_image)
 enemy_group.add(enemy)
 
 # Create sidepanel with buttons
-turret_button = Button(c.SCREEN_WIDTH + 30, 120, buy_turret_image)
-cancel_button = Button(c.SCREEN_WIDTH + 50, 180, cancel_image)
+turret_button = Button(c.SCREEN_WIDTH + 30, 120, buy_turret_image, True)
+cancel_button = Button(c.SCREEN_WIDTH + 50, 180, cancel_image, True)
 
 
 # Game loop
@@ -103,8 +108,22 @@ while run:
     turret_group.draw(screen)
 
     # Draw buttons
-    turret_button.draw(screen)
-    cancel_button.draw(screen)
+    # Check if a new turret was initiated for placement
+    if turret_button.draw(screen):
+        placing_turret = True
+
+    # If we are placing turret, show cancel button
+    if placing_turret:
+
+        # Show cursor turret
+        cursor_rect = cursor_turret.get_rect()
+        cursor_pos = pg.mouse.get_pos()
+        cursor_rect.center = cursor_pos
+        if cursor_pos[0] <= c.SCREEN_WIDTH:
+            screen.blit(cursor_turret, cursor_rect)
+
+        if cancel_button.draw(screen):
+            placing_turret = False
 
     # Event handler
     for event in pg.event.get():
@@ -117,7 +136,8 @@ while run:
 
             # Check if mouse is on the game area
             if mouse_pos[0] < c.SCREEN_WIDTH and mouse_pos[1] < c.SCREEN_HEIGHT:
-                create_turret(mouse_pos)
+                if placing_turret:
+                    create_turret(mouse_pos)
 
     pg.display.flip()
 
