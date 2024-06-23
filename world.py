@@ -3,6 +3,7 @@ import pygame as pg
 
 class World:
     def __init__(self, world_data, map_image):
+        self.tile_map = []
         self.waypoints = []
         self.image = map_image
         self.level_data = world_data
@@ -10,7 +11,9 @@ class World:
     def process_data(self):
         # look through data to extract relevant infos
         for layer in self.level_data.get("layers", None):
-            if layer.get("name", None) == "waypoints":
+            if layer.get("name", None) == "tilemap":
+                self.tile_map = layer.get("data")
+            elif layer.get("name", None) == "waypoints":
                 for obj in layer.get("objects", None):
                     waypoint_data = obj.get("polyline", None)
                     self.process_waypoints(waypoint_data)
