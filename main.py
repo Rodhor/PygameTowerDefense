@@ -26,6 +26,8 @@ placing_turret = False
 # Map
 map_image = pg.image.load("levels/level.png").convert_alpha()
 
+# Load Turret spritesheet (Animation with regular pictures)
+turret_sheet = pg.image.load("assets/images/turrets/turret_1.png").convert_alpha()
 
 # Individual turret image for cursor
 cursor_turret = pg.image.load("assets/images/turrets/cursor_turret.png").convert_alpha()
@@ -62,7 +64,7 @@ def create_turret(mouse_pos):
 
         # If there is no turrets, place a turret
         if space_is_free:
-            new_turret = Turret(cursor_turret, mouse_tile_x, mouse_tile_y)
+            new_turret = Turret(turret_sheet, mouse_tile_x, mouse_tile_y)
             turret_group.add(new_turret)
 
 
@@ -94,6 +96,7 @@ while run:
 
     # Update groups
     enemy_group.update()
+    turret_group.update()
 
     ####################
     # Drawing SECTION #
